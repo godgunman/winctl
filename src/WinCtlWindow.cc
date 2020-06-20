@@ -128,10 +128,11 @@ NAN_METHOD(Window::isVisible) {
 NAN_METHOD(Window::getTitle) {
 	Window* obj = Nan::ObjectWrap::Unwrap<Window>(info.This());
 
-	char wnd_title[256];
-	GetWindowText(obj->windowHandle, wnd_title, sizeof(wnd_title));
+	wchar_t wnd_title[256];
+	
+	GetWindowTextW(obj->windowHandle, wnd_title, sizeof(wnd_title));
 
-	info.GetReturnValue().Set(Nan::New(wnd_title).ToLocalChecked());
+	info.GetReturnValue().Set(Nan::New((const uint16_t *)wnd_title).ToLocalChecked());
 }
 
 NAN_METHOD(Window::getHwnd) {
